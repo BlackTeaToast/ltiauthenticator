@@ -1,4 +1,5 @@
 import time
+import os
 
 from traitlets import Bool, Dict
 from tornado import gen, web
@@ -9,6 +10,8 @@ from jupyterhub.utils import url_path_join
 
 from oauthlib.oauth1.rfc5849 import signature
 from collections import OrderedDict
+
+LTI_USER_ID_FIELD = os.getenv('LTI_USER_ID_FIELD')
 
 class LTILaunchValidator:
     # Record time when process starts, so we can reject requests made
@@ -156,7 +159,9 @@ class LTIAuthenticator(Authenticator):
 
             canvas_id = handler.get_body_argument('custom_canvas_user_id', default=None)
 
-            if canvas_id is not None:
+            if LTI_USER_ID_FIELD:
+                user_id = handler.get_body_argument(LTI_USER_ID_FIELD)
+            elif canvas_id is not None:
                 user_id = handler.get_body_argument('custom_canvas_user_id')
             else:
                 user_id = handler.get_body_argument('user_id')
