@@ -175,6 +175,24 @@ class LTIAuthenticator(Authenticator):
     def login_url(self, base_url):
         return url_path_join(base_url, '/lti/launch')
 
+    @gen.coroutine
+    def pre_spawn_start(self, user, spawner):
+        """Pass LTI args to spawner via environment variable"""
+        auth_state = yield user.get_auth_state()
+        if not auth_state:
+            # auth_state not enabled
+            return
+        spawner.environment['VISCODE_CONTEXT_TITLE'] = auth_state['context_title']
+        spawner.environment['VISCODE_CONTEXT_LABEL'] = auth_state['context_label']
+        spawner.environment['VISCODE_CONTEXT_ID'] = auth_state['context_id']
+        spawner.environment['VISCODE_EMAIL'] = auth_state['lis_person_contact_email_primary']
+        spawner.environment['VISCODE_FIRSTNAME'] = auth_state['lis_person_name_given']
+        spawner.environment['VISCODE_LASTNAME'] = auth_state['lis_person_name_family']
+        spawner.environment['VISCODE_NAME'] = auth_state['lis_person_name_full']
+        spawner.environment['VISCODE_USERNAME'] = auth_state['ext_user_username']
+        spawner.environment['VISCODE_LOCALE'] = auth_state['launch_presentation_locale']
+        spawner.environment['VISCODE_ROLES'] = auth_state['roles']
+
 
 class LTIAuthenticateHandler(BaseHandler):
     """
