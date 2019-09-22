@@ -182,16 +182,16 @@ class LTIAuthenticator(Authenticator):
         if not auth_state:
             # auth_state not enabled
             return
-        spawner.environment['VISCODE_CONTEXT_TITLE'] = auth_state['context_title']
-        spawner.environment['VISCODE_CONTEXT_LABEL'] = auth_state['context_label']
-        spawner.environment['VISCODE_CONTEXT_ID'] = auth_state['context_id']
-        spawner.environment['VISCODE_EMAIL'] = auth_state['lis_person_contact_email_primary']
-        spawner.environment['VISCODE_FIRSTNAME'] = auth_state['lis_person_name_given']
-        spawner.environment['VISCODE_LASTNAME'] = auth_state['lis_person_name_family']
-        spawner.environment['VISCODE_NAME'] = auth_state['lis_person_name_full']
-        spawner.environment['VISCODE_USERNAME'] = auth_state['ext_user_username']
-        spawner.environment['VISCODE_LOCALE'] = auth_state['launch_presentation_locale']
-        spawner.environment['VISCODE_ROLES'] = auth_state['roles']
+        spawner.environment['LTI_CONTEXT_TITLE'] = auth_state['context_title']
+        spawner.environment['LTI_CONTEXT_LABEL'] = auth_state['context_label']
+        spawner.environment['LTI_CONTEXT_ID'] = auth_state['context_id']
+        spawner.environment['LTI_EMAIL'] = auth_state['lis_person_contact_email_primary']
+        spawner.environment['LTI_FIRSTNAME'] = auth_state['lis_person_name_given']
+        spawner.environment['LTI_LASTNAME'] = auth_state['lis_person_name_family']
+        spawner.environment['LTI_NAME'] = auth_state['lis_person_name_full']
+        spawner.environment['LTI_USERNAME'] = auth_state['ext_user_username']
+        spawner.environment['LTI_LOCALE'] = auth_state['launch_presentation_locale']
+        spawner.environment['LTI_ROLES'] = auth_state['roles']
 
 
 class LTIAuthenticateHandler(BaseHandler):
